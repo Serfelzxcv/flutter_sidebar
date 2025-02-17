@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 49, 49, 49),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
@@ -68,8 +68,8 @@ class _HomeState extends State<Home> {
                 ),
                 child:
                 isCollapsed ?
-                 Icon(Icons.arrow_forward, color: Colors.white,size: 12,):
-                 Icon(Icons.arrow_back, color: Colors.white,size: 12)
+                 Icon(Icons.arrow_forward, color: const Color.fromARGB(255, 0, 0, 0),size: 12,):
+                 Icon(Icons.arrow_back, color: const Color.fromARGB(255, 0, 0, 0),size: 12)
               ),
             ),
           ),
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
               left: 75,
               top: 100,
               child: Material(
-                color: Colors.transparent,
+                color: const Color.fromARGB(0, 0, 0, 0),
                 child: Container(
                   width: 200,
                   padding: const EdgeInsets.all(8),

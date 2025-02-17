@@ -36,7 +36,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
   void didUpdateWidget(covariant ComponentSidebar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Control de texto (como ya lo manejabas)
+    // Control de texto
     if (!widget.isCollapsed) {
       // Esperar la animación de ancho
       Future.delayed(kSidebarAnimationDuration, () {
@@ -67,49 +67,47 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
       duration: kSidebarAnimationDuration,
       width: widget.isCollapsed ? kCollapsedWidth : kExpandedWidth,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 0, 0, 0),
+        color: const Color.fromARGB(255, 70, 67, 67),
         borderRadius: BorderRadius.circular(10),
       ),
-
-
       child: Column(
         children: [
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: kSidebarPadding),
-            child: Container(
-
-              child: Row(
-                // Mantenemos siempre a la izquierda:
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Imagen 1 (se muestra siempre)
+          // Sección de imágenes con fondo negro de ancho completo
+          Container(
+            width: double.infinity, // Ocupar todo el ancho
+            color: Colors.black,     // Fondo negro
+            padding: const EdgeInsets.only(
+              top: 16,
+              left: kSidebarPadding,
+              right: kSidebarPadding,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // Imagen 1 (siempre visible)
+                Image.asset(
+                  'assets/images/image_1.png',
+                  width: 40,
+                  height: 40,
+                ),
+                // Segunda imagen (visible con showSecondImage = true)
+                if (showSecondImage) ...[
+                  const SizedBox(width: 8),
                   Image.asset(
-                    'assets/images/image_1.png',
-                    width: 40,
+                    'assets/images/image_2.png',
+                    width: 80,
                     height: 40,
                   ),
-              
-                  // Segunda imagen con delay (sólo aparece cuando showSecondImage = true)
-                  if (showSecondImage) ...[
-                    const SizedBox(width: 8),
-                    Image.asset(
-                      'assets/images/image_2.png',
-                      width: 80,
-                      height: 40,
-                    ),
-                  ],
                 ],
-              ),
+              ],
             ),
           ),
 
-          // Expanded para el resto del contenido (lista de items, etc.)
+          // Expanded para el resto del contenido (lista de items)
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kSidebarPadding),
               child: ListView(
-                // Espacio superior antes de la lista
                 padding: const EdgeInsets.only(top: kTopListPadding),
                 children: SidebarData.subItems.keys.map((title) {
                   final bool isHovered = hoveredItem == title;
@@ -127,18 +125,16 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
                           color: isHovered ? Colors.grey[300] : Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 10,
                           horizontal: kHorizontalPaddingPerItem,
                         ),
                         child: Row(
                           children: [
-                            // Ícono
                             Icon(
                               _getIcon(title),
                               color: Colors.blue,
                             ),
-                            // Texto (aparece cuando showText = true)
                             if (showText)
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
@@ -164,7 +160,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
     );
   }
 
-  /// Función auxiliar para asignar íconos según título
+  /// Función auxiliar para asignar íconos según el título
   IconData _getIcon(String title) {
     switch (title) {
       case "All Inboxes":
