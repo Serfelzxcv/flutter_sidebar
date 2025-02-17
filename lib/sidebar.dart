@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dashboard_sidebar/sidebar_data.dart';
 
-/// Constantes para una fácil modificación futura.
+/// Constantes para una fácil modificación.
 const double kCollapsedWidth = 76;
 const double kExpandedWidth = 200;
 const double kVerticalPaddingPerItem = 5.0;
@@ -18,10 +18,10 @@ class ComponentSidebar extends StatefulWidget {
   final VoidCallback onToggle;
 
   const ComponentSidebar({
-    Key? key,
+    super.key,
     required this.isCollapsed,
     required this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   _ComponentSidebarState createState() => _ComponentSidebarState();
@@ -29,14 +29,16 @@ class ComponentSidebar extends StatefulWidget {
 
 class _ComponentSidebarState extends State<ComponentSidebar> {
   bool showText = false;
+  bool showSecondImage = false; // Controla la segunda imagen
   String? hoveredItem;
 
   @override
   void didUpdateWidget(covariant ComponentSidebar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    // Control de texto (tal y como ya lo tenías)
     if (!widget.isCollapsed) {
-      // Esperar a que termine la animación de ancho antes de mostrar el texto.
+      // Esperar la animación de ancho
       Future.delayed(kSidebarAnimationDuration, () {
         if (mounted && !widget.isCollapsed) {
           setState(() => showText = true);
@@ -44,6 +46,18 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
       });
     } else {
       setState(() => showText = false);
+    }
+
+    // Control de segunda imagen
+    if (!widget.isCollapsed) {
+      // Retrasa un poco su aparición para evitar overflow
+      Future.delayed(kSidebarAnimationDuration, () {
+        if (mounted && !widget.isCollapsed) {
+          setState(() => showSecondImage = true);
+        }
+      });
+    } else {
+      setState(() => showSecondImage = false);
     }
   }
 
@@ -53,23 +67,50 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
       duration: kSidebarAnimationDuration,
       width: widget.isCollapsed ? kCollapsedWidth : kExpandedWidth,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color.fromARGB(255, 82, 78, 78),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          if (!widget.isCollapsed)
-            Align(
-              alignment: Alignment.centerRight,
-              // Si tienes un botón o algún widget extra, puedes ponerlo aquí
+          // Espacio adicional arriba para que el logo no quede pegado al tope
+          const SizedBox(height: 16),
+
+          // Sección con los logos
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: widget.isCollapsed ? 0 : kSidebarPadding,
             ),
+            child: Row(
+              mainAxisAlignment: widget.isCollapsed 
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
+              children: [
+                // Imagen 1 (se muestra siempre)
+                Image.asset(
+                  'assets/images/image_1.png',
+                  width: 40,
+                  height: 40,
+                ),
+                // Segunda imagen con delay (aparece sólo cuando showSecondImage = true)
+                if (showSecondImage) ...[
+                  const SizedBox(width: 8),
+                  Image.asset(
+                    'assets/images/image_2.png',
+                    width: 80,
+                    height: 40,
+                  ),
+                ],
+              ],
+            ),
+          ),
+          // Luego la parte principal
           Expanded(
             child: Padding(
-              // Ajusta el padding horizontal si deseas que sea menor/0 al colapsar
               padding: EdgeInsets.symmetric(
-                horizontal:  kSidebarPadding,
+                horizontal: kSidebarPadding,
               ),
               child: ListView(
+                // Espacio superior antes de la lista
                 padding: const EdgeInsets.only(top: kTopListPadding),
                 children: SidebarData.subItems.keys.map((title) {
                   final bool isHovered = hoveredItem == title;
@@ -95,7 +136,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
                         ),
                         child: Row(
                           children: [
-                            // AnimatedAlign para animar la posición del ícono al colapsar/expandir
+                            // Ícono animado
                             AnimatedAlign(
                               duration: kSidebarAnimationDuration,
                               curve: Curves.easeInOut,
@@ -107,7 +148,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
                                 color: Colors.blue,
                               ),
                             ),
-                            // Mostrar texto solo cuando hay espacio (showText = true)
+                            // Texto (aparece cuando showText = true)
                             if (showText)
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),

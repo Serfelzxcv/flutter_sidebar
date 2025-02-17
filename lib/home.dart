@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            left: isCollapsed ? 60 : 185,
+            left: isCollapsed ? 65 : 185,
             top: 20,
             child: GestureDetector(
               onTap: toggleCollapse,
@@ -68,8 +68,8 @@ class _HomeState extends State<Home> {
                 ),
                 child:
                 isCollapsed ?
-                 Icon(Icons.arrow_forward, color: Colors.white,size: 15,):
-                 Icon(Icons.arrow_back, color: Colors.white,size: 15)
+                 Icon(Icons.arrow_forward, color: Colors.white,size: 12,):
+                 Icon(Icons.arrow_back, color: Colors.white,size: 12)
               ),
             ),
           ),
