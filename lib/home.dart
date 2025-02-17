@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
           AnimatedPositioned(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
-            left: isCollapsed ? 55 : 235,
+            left: isCollapsed ? 60 : 185,
             top: 20,
             child: GestureDetector(
               onTap: toggleCollapse,
