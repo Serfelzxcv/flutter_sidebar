@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 0, 0),
+                  color: const Color.fromARGB(255, 49, 49, 49),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(

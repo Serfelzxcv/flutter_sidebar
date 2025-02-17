@@ -18,10 +18,10 @@ class ComponentSidebar extends StatefulWidget {
   final VoidCallback onToggle;
 
   const ComponentSidebar({
-    super.key,
+    Key? key,
     required this.isCollapsed,
     required this.onToggle,
-  });
+  }) : super(key: key);
 
   @override
   _ComponentSidebarState createState() => _ComponentSidebarState();
@@ -36,7 +36,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
   void didUpdateWidget(covariant ComponentSidebar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Control de texto (tal y como ya lo tenías)
+    // Control de texto (como ya lo manejabas)
     if (!widget.isCollapsed) {
       // Esperar la animación de ancho
       Future.delayed(kSidebarAnimationDuration, () {
@@ -67,48 +67,47 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
       duration: kSidebarAnimationDuration,
       width: widget.isCollapsed ? kCollapsedWidth : kExpandedWidth,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 82, 78, 78),
+        color: const Color.fromARGB(255, 0, 0, 0),
         borderRadius: BorderRadius.circular(10),
       ),
+
+
       child: Column(
         children: [
-          // Espacio adicional arriba para que el logo no quede pegado al tope
           const SizedBox(height: 16),
-
-          // Sección con los logos
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: widget.isCollapsed ? 0 : kSidebarPadding,
-            ),
-            child: Row(
-              mainAxisAlignment: widget.isCollapsed 
-                  ? MainAxisAlignment.center
-                  : MainAxisAlignment.start,
-              children: [
-                // Imagen 1 (se muestra siempre)
-                Image.asset(
-                  'assets/images/image_1.png',
-                  width: 40,
-                  height: 40,
-                ),
-                // Segunda imagen con delay (aparece sólo cuando showSecondImage = true)
-                if (showSecondImage) ...[
-                  const SizedBox(width: 8),
+            padding: const EdgeInsets.symmetric(horizontal: kSidebarPadding),
+            child: Container(
+
+              child: Row(
+                // Mantenemos siempre a la izquierda:
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // Imagen 1 (se muestra siempre)
                   Image.asset(
-                    'assets/images/image_2.png',
-                    width: 80,
+                    'assets/images/image_1.png',
+                    width: 40,
                     height: 40,
                   ),
+              
+                  // Segunda imagen con delay (sólo aparece cuando showSecondImage = true)
+                  if (showSecondImage) ...[
+                    const SizedBox(width: 8),
+                    Image.asset(
+                      'assets/images/image_2.png',
+                      width: 80,
+                      height: 40,
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
-          // Luego la parte principal
+
+          // Expanded para el resto del contenido (lista de items, etc.)
           Expanded(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: kSidebarPadding,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: kSidebarPadding),
               child: ListView(
                 // Espacio superior antes de la lista
                 padding: const EdgeInsets.only(top: kTopListPadding),
@@ -125,9 +124,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
                         duration: kHoverAnimationDuration,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: isHovered
-                              ? Colors.grey[300]
-                              : Colors.transparent,
+                          color: isHovered ? Colors.grey[300] : Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         padding: EdgeInsets.symmetric(
@@ -136,17 +133,10 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
                         ),
                         child: Row(
                           children: [
-                            // Ícono animado
-                            AnimatedAlign(
-                              duration: kSidebarAnimationDuration,
-                              curve: Curves.easeInOut,
-                              alignment: widget.isCollapsed
-                                  ? Alignment.center
-                                  : Alignment.centerLeft,
-                              child: Icon(
-                                _getIcon(title),
-                                color: Colors.blue,
-                              ),
+                            // Ícono
+                            Icon(
+                              _getIcon(title),
+                              color: Colors.blue,
                             ),
                             // Texto (aparece cuando showText = true)
                             if (showText)
@@ -174,6 +164,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
     );
   }
 
+  /// Función auxiliar para asignar íconos según título
   IconData _getIcon(String title) {
     switch (title) {
       case "All Inboxes":
