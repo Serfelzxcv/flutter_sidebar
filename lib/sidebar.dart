@@ -18,10 +18,10 @@ class ComponentSidebar extends StatefulWidget {
   final VoidCallback onToggle;
 
   const ComponentSidebar({
-    Key? key,
+    super.key,
     required this.isCollapsed,
     required this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   _ComponentSidebarState createState() => _ComponentSidebarState();
@@ -36,9 +36,9 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
   void didUpdateWidget(covariant ComponentSidebar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Control de texto
+    // Control de texto para los ítems y para " PRINCIPAL"
     if (!widget.isCollapsed) {
-      // Esperar la animación de ancho
+      // Esperar la animación de ancho (300ms)
       Future.delayed(kSidebarAnimationDuration, () {
         if (mounted && !widget.isCollapsed) {
           setState(() => showText = true);
@@ -67,17 +67,25 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
       duration: kSidebarAnimationDuration,
       width: widget.isCollapsed ? kCollapsedWidth : kExpandedWidth,
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 70, 67, 67),
+        color: const Color.fromARGB(255, 255, 255, 255),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          // Sección de imágenes con fondo negro de ancho completo
           Container(
-            width: double.infinity, // Ocupar todo el ancho
-            color: Colors.black,     // Fondo negro
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 12, 12, 12),
+              border: const Border(
+                bottom: BorderSide(
+                  color: Colors.white,
+                  width: 2,
+                ),
+              ),
+            ),
             padding: const EdgeInsets.only(
               top: 16,
+              bottom: 16,
               left: kSidebarPadding,
               right: kSidebarPadding,
             ),
@@ -102,7 +110,28 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
               ],
             ),
           ),
-
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+              left: kSidebarPadding,
+              right: kSidebarPadding,
+            ),
+            child: Text(
+              // Solo se concatena " PRINCIPAL" si el sidebar está expandido y showText es true.
+              "MENU${(!widget.isCollapsed && showText) ? " PRINCIPAL" : ""}",
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 11,
+              ),
+            ),
+          ),
+          const Divider(
+            height: 1, // Altura total del Divider
+            thickness: 1, // Grosor de la línea
+            color: Colors.grey, // Color de la línea
+          ),
           // Expanded para el resto del contenido (lista de items)
           Expanded(
             child: Padding(
@@ -133,7 +162,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
                           children: [
                             Icon(
                               _getIcon(title),
-                              color: Colors.blue,
+                              color: const Color.fromARGB(255, 0, 0, 0),
                             ),
                             if (showText)
                               Padding(
