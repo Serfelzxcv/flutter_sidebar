@@ -40,17 +40,7 @@ class _HomeState extends State<Home> {
     ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
     ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
         ["Alice", 25, "USA", "Desarrolladora", 3, "\$75,000"],
-    ["Bob", 30, "Reino Unido", "Diseñador", 5, "£40,000"],
-    ["Charlie", 35, "Canadá", "Analista", 7, "CAD 60,000"],
-    ["Julia", 31, "Francia", "Gerente de Proy.", 4, "€50,000"],
-    ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
-    ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
-        ["Alice", 25, "USA", "Desarrolladora", 3, "\$75,000"],
-    ["Bob", 30, "Reino Unido", "Diseñador", 5, "£40,000"],
-    ["Charlie", 35, "Canadá", "Analista", 7, "CAD 60,000"],
-    ["Julia", 31, "Francia", "Gerente de Proy.", 4, "€50,000"],
-    ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
-    ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
+    
 
 
   ];
@@ -77,19 +67,22 @@ class _HomeState extends State<Home> {
                 flex: 1,
                 child: Column(
                   children: [
-                    // El contenedor que muestra la tabla
-                    Container(
-                      color: Colors.amber,
-                      height: 600,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: DataTableWidget(
-                          columns: columnTitles,
-                          rows: tableData,
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        color: Colors.amber,
+                        height: 600,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: DataTableWidget(
+                            columns: columnTitles,
+                            rows: tableData,
+                          ),
                         ),
                       ),
                     ),
                     Expanded(
+                      flex: 1,
                       child: Container(
                         color: Colors.blue,
                       ),
