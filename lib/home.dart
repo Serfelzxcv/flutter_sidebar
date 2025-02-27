@@ -1,5 +1,5 @@
-import 'package:dashboard_sidebar/table/table.dart';
 import 'package:flutter/material.dart';
+import 'package:dashboard_sidebar/table/table.dart'; // tu nuevo DataTableWidget basado en data_table_2
 import 'package:dashboard_sidebar/sidebar.dart';
 import 'package:dashboard_sidebar/sidebar_data.dart';
 
@@ -16,28 +16,43 @@ class _HomeState extends State<Home> {
   bool isHovering = false;
 
   /// Ejemplo de títulos de columna.
-  final List<String> columnTitles = ["Nombre", "Edad", "País"];
+  final List<String> columnTitles = [
+    "Nombre",
+    "Edad",
+    "País",
+    "Profesión",
+    "Años Exp.",
+    "Salario"
+  ];
 
   /// Ejemplo de contenido: cada sublista es una fila.
   final List<List<dynamic>> tableData = [
-    ["Alice", 25, "USA"],
-    ["Bob", 30, "Reino Unido"],
-    ["Charlie", 35, "Canadá"],
-    ["David", 40, "Australia"],
-    ["Emma", 28, "Alemania"],
-    ["Francisco", 33, "España"],
-    ["Hana", 27, "Japón"],
-    ["Igor", 29, "Rusia"],
-    ["Julia", 31, "Francia"],
-    ["Alice", 25, "USA"],
-    ["Bob", 30, "Reino Unido"],
-    ["Charlie", 35, "Canadá"],
-    ["David", 40, "Australia"],
-    ["Emma", 28, "Alemania"],
-    ["Francisco", 33, "España"],
-    ["Hana", 27, "Japón"],
-    ["Igor", 29, "Rusia"],
-    ["Julia", 31, "Francia"],
+    ["Alice", 25, "USA", "Desarrolladora", 3, "\$75,000"],
+    ["Bob", 30, "Reino Unido", "Diseñador", 5, "£40,000"],
+    ["Charlie", 35, "Canadá", "Analista", 7, "CAD 60,000"],
+    ["Julia", 31, "Francia", "Gerente de Proy.", 4, "€50,000"],
+    ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
+    ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
+        ["Alice", 25, "USA", "Desarrolladora", 3, "\$75,000"],
+    ["Bob", 30, "Reino Unido", "Diseñador", 5, "£40,000"],
+    ["Charlie", 35, "Canadá", "Analista", 7, "CAD 60,000"],
+    ["Julia", 31, "Francia", "Gerente de Proy.", 4, "€50,000"],
+    ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
+    ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
+        ["Alice", 25, "USA", "Desarrolladora", 3, "\$75,000"],
+    ["Bob", 30, "Reino Unido", "Diseñador", 5, "£40,000"],
+    ["Charlie", 35, "Canadá", "Analista", 7, "CAD 60,000"],
+    ["Julia", 31, "Francia", "Gerente de Proy.", 4, "€50,000"],
+    ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
+    ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
+        ["Alice", 25, "USA", "Desarrolladora", 3, "\$75,000"],
+    ["Bob", 30, "Reino Unido", "Diseñador", 5, "£40,000"],
+    ["Charlie", 35, "Canadá", "Analista", 7, "CAD 60,000"],
+    ["Julia", 31, "Francia", "Gerente de Proy.", 4, "€50,000"],
+    ["Ana", 29, "España", "QA Tester", 3, "€35,000"],
+    ["Pedro", 40, "México", "Arquitecto de SW", 10, "\$90,000"],
+
+
   ];
 
   void toggleCollapse() {
@@ -54,33 +69,42 @@ class _HomeState extends State<Home> {
         children: [
           Row(
             children: [
-              // Sidebar, etc.
               ComponentSidebar(
                 isCollapsed: isCollapsed,
                 onToggle: toggleCollapse,
               ),
               Expanded(
-                child: Container(
-                  color: Colors.amber,
-                  height: 600,
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: DataTableWidget(
-                      columns: columnTitles,
-                      rows: tableData,
+                flex: 1,
+                child: Column(
+                  children: [
+                    // El contenedor que muestra la tabla
+                    Container(
+                      color: Colors.amber,
+                      height: 600,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: DataTableWidget(
+                          columns: columnTitles,
+                          rows: tableData,
+                        ),
+                      ),
                     ),
-                  ),
+                    Expanded(
+                      child: Container(
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Container(
-                color: const Color.fromARGB(255, 255, 144, 144),
-                width: 700,
+              Expanded(
+           flex: 4,
+                child: Container(
+                  color: const Color.fromARGB(255, 255, 144, 144),
+                ),
               ),
             ],
           ),
-
-
-
 
           // Botón animado para colapsar
           AnimatedPositioned(
@@ -111,13 +135,14 @@ class _HomeState extends State<Home> {
               ),
             ),
           ),
-          // Opcional: Tooltip lateral cuando está colapsado
+
+          // Tooltip lateral cuando está colapsado (opcional)
           if (isCollapsed && hoveredItem != null)
             Positioned(
               left: 75,
               top: 100,
               child: Material(
-                color: const Color.fromARGB(0, 0, 0, 0),
+                color: Colors.transparent,
                 child: Container(
                   width: 200,
                   padding: const EdgeInsets.all(8),
