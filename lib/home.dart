@@ -68,10 +68,9 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: Container(
                         color: Colors.amber,
-                        height: 600,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: DataTableWidget(
@@ -91,7 +90,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Expanded(
-           flex: 4,
+           flex: 1,
                 child: Container(
                   color: const Color.fromARGB(255, 255, 144, 144),
                 ),
@@ -175,3 +174,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+// tengo un problema, mi tabla tiene muchas columnas y pocas filas , el problemas es que el scroll horizontal solo funciona cuando el scroll vertical está presente , caso contrario no aparece , pero como tengo pocas filas no aparece el scroll vertical y porende tampoco el horizontal lo que impide que vea las demas columnas 
