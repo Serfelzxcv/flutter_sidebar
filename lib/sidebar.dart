@@ -24,6 +24,7 @@ class ComponentSidebar extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ComponentSidebarState createState() => _ComponentSidebarState();
 }
 
@@ -78,8 +79,8 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
               color: const Color.fromARGB(255, 12, 12, 12),
               border: const Border(
                 bottom: BorderSide(
-                  color: Colors.white,
-                  width: 2,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  width: 1,
                 ),
               ),
             ),
@@ -110,6 +111,11 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
               ],
             ),
           ),
+          const Divider(
+            height: 1, // Altura total del Divider
+            thickness: 1, // Grosor de la línea
+            color: Color.fromARGB(255, 0, 0, 0), // Color de la línea
+          ),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.only(
@@ -137,7 +143,7 @@ class _ComponentSidebarState extends State<ComponentSidebar> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: kSidebarPadding),
               child: ListView(
-                padding: const EdgeInsets.only(top: kTopListPadding),
+
                 children: SidebarData.subItems.keys.map((title) {
                   final bool isHovered = hoveredItem == title;
                   return Padding(
